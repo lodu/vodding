@@ -2,19 +2,22 @@ import { EventSubWsListener } from "@twurple/eventsub-ws";
 import { twitchClient } from "../../utils/twitchClient";
 import logger from "../../utils/logger";
 import { startStreamRecording } from "../streamService";
-import type { StreamOnlineEvent } from "../../types/twitchTypes";
 import type { StartStreamRecording } from "../../types/streamTypes";
-import { getUserIdByUsername } from "./apiService";
+import { getUserByUsername } from "./apiService";
 import { startLogChat, stoptLogChat } from "./chatService";
 
 const listener = new EventSubWsListener({
   apiClient: twitchClient,
 });
 
-const createListener = (userId: string) => {
-  listener.onStreamOnline(userId, (event) => {
+const createListener = async (userName: string) => {
+  const user = await getUserByUsername(userName);
+
+
+
+  startLogChat(user);
+  listener.onStreamOnline(user, (event) => {
     const streamerName = event.broadcasterDisplayName;
-    startLogChat(streamerName);
     logger.debug(`${streamerName} just went live! Starting recording...`);
 
     const recordingConfig: StartStreamRecording = {
@@ -24,29 +27,23 @@ const createListener = (userId: string) => {
 
     startStreamRecording(recordingConfig);
   });
-  listener.onStreamOffline(userId, (event) => {
+  listener.onStreamOffline(user, (event) => {
     const streamerName = event.broadcasterDisplayName;
-    stoptLogChat(streamerName);
-    logger.debug(`${streamerName} just went offline! Stopped logging chat...`);
+    logger.debug(`${streamerName} just went offline! Stopped logging recording...`);
   });
 };
 
 export const setupTwitchListeners = async () => {
   try {
     const recordingNames = ["marklahhh", "ginandos"];
+
     recordingNames.forEach(async (name: string) => {
-      await getUserIdByUsername(name)
-        .then((userId) => {
-          userId
-            ? createListener(userId)
-            : logger.error(
-                `Error setting up Twitch EventSub WebSocket listener for ${name}: cannot find id`
-              );
-        })
-        .catch((e: any) => {
-          logger.error(e);
-        });
-    });
+      await createListener(name).then(() => {
+        logger.info(`Twitch EventSub WebSocket listener set up for ${name}`);
+      }).catch((e: any) => { logger.error(e); })
+    })
+
+
 
     listener.start();
     logger.info("Twitch EventSub WebSocket listener set up and listening");

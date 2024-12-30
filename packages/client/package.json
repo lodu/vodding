@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.6",
-    "@vodding/common": "workspace:*",
     "framer-motion": "^11.3.28",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -14,11 +14,17 @@ export const initializeSocket = (server: HttpServer) => {
   io.on("connection", (socket) => {
     logger.info(`New client connected: ${socket.id}`);
 
+    socket.on('joinChannel', (channel) => {
+      socket.join(channel);
+      logger.info(`Client ${socket.id} joined channel ${channel}`);
+    });
+
     socket.on("disconnect", () => {
       logger.info(`Client disconnected: ${socket.id}`);
     });
 
-    // Add more event handlers as needed
+
+
   });
 };
 
