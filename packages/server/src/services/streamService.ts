@@ -1,4 +1,3 @@
-import { exec } from "child_process";
 import logger from "../utils/logger";
 import type { StartStreamRecording } from "../types/streamTypes";
 export const startStreamRecording = async ({

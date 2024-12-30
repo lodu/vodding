@@ -6,20 +6,15 @@
     "dev": "bun --hot run src/server.ts"
   },
   "dependencies": {
-    "@mikro-orm/cli": "^6.3.6",
-    "@mikro-orm/core": "^6.3.6",
-    "@mikro-orm/migrations": "^6.3.6",
-    "@mikro-orm/postgresql": "^6.3.6",
-    "@mikro-orm/sql-highlighter": "^1.0.1",
     "@twurple/api": "^7.1.0",
     "@twurple/auth": "^7.1.0",
     "@twurple/chat": "^7.1.0",
     "@twurple/eventsub-ws": "^7.1.0",
     "@types/http-status-codes": "^1.2.0",
-    "@vodding/common": "workspace:*",
     "ajv": "^8.17.1",
     "express": "^4.19.2",
     "http-status-code": "^2.1.0",
+    "lowdb": "^7.0.1",
     "socket.io": "^4.7.5",
     "winston": "^3.14.2"
   },

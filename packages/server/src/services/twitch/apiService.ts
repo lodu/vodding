@@ -1,19 +1,16 @@
+import type { HelixUser } from "@twurple/api";
 import { twitchClient } from "../../utils/twitchClient";
 
-const getUserIdByUsername = async (
+const getUserByUsername = async (
   username: string
-): Promise<string | null> => {
-  try {
-    const user = await twitchClient.users.getUserByName(username);
-    return user ? user.id : null;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error fetching user ID for ${username}: ${error.message}`);
-    } else {
-      console.error(`Unknown error fetching user ID for ${username}`);
+): Promise<HelixUser> => {
+  return await twitchClient.users.getUserByName(username).then((user) => {
+    if (!user) {
+      console.error(`User ${username} not found`);
+      throw new Error(`User ${username} not found`);
     }
-    return null;
-  }
+    return user;
+  })
 };
 
-export { getUserIdByUsername };
+export { getUserByUsername };
