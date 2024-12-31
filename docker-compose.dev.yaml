@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app_development
+    restart: unless-stopped
+    volumes:
+      - ./packages/app:/app/packages/app
+    expose:
+      - "5432"
+    command: [ "run", "dev" ]
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web_development
+    restart: unless-stopped
+    volumes:
+      - ./packages/web:/app/packages/web
+    expose:
+      - "3000"
+    command: [ "run", "dev" ]
+    depends_on:
+      - - app
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - "89:80"
+    volumes:
+      - ./nginx/development.nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+      - web

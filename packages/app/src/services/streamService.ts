@@ -1,4 +1,5 @@
 import logger from "../utils/logger";
+import { spawn } from 'bun';
 import type { StartStreamRecording } from "../types/streamTypes";
 export const startStreamRecording = async ({
   streamerName,
@@ -16,7 +17,7 @@ export const startStreamRecording = async ({
   console.error(args);
 
   try {
-    const process = Bun.spawn({
+    const process = spawn({
       cmd: [command, ...args],
       stdout: "pipe",
       stderr: "pipe",

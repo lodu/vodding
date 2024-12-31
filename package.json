@@ -1,7 +1,32 @@
 {
   "name": "vodding",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "bunx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
   "private": "true",
+  "scripts": {
+    "prepare": "husky",
+  },
+  "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/app",
+    "packages/web"
   ]
 }

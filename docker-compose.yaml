@@ -1,0 +1,21 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app_production
+    environment:
+      NODE_ENV: production
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web_production
+    volumes:
+      - ./nginx/production.nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      NODE_ENV: production
+    ports:
+      - "89:80"
+    depends_on:
+      - app

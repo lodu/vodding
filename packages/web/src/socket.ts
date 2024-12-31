@@ -1,10 +1,7 @@
 import { io, Socket } from "socket.io-client";
-const URL =
-  process.env.NODE_ENV === "production"
-    ? `${window.location}/socket/`
-    : "http://localhost:3000";
 
-export const socket: Socket = io(URL, {
+export const socket: Socket = io({
+  path: '/app/socket/',
   transports: ["websocket", "polling", "flashsocket"],
 });
 

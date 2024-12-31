@@ -1,20 +1,12 @@
 {
-  "name": "@vodding/client",
+  "name": "@vodding/web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bunx --bun vite",
-    "build": "tsc -b && bunx --bun vite build",
-    "lint:fix": "eslint . --ext ts,tsx --fix --report-unused-disable-directives --max-warnings 0",
-    "format:fix": "prettier --write .",
+    "dev": "bunx --bun vite --host 0.0.0.0",
+    "build": "bunx --bun vite build",
     "preview": "bunx --bun vite preview"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "bun run lint:fix",
-      "bun run format:fix"
-    ]
   },
   "dependencies": {
     "@vodding/common": "workspace:*",
@@ -33,13 +25,8 @@
     "@types/react-dom": "^18.3.0",
     "@types/socket.io-client": "^3.0.0",
     "@types/video.js": "^7.3.58",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.10",
     "husky": "^9.1.7",
     "lint-staged": "^15.3.0",
     "postcss": "^8.4.41",
