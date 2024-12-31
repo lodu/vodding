@@ -33,7 +33,7 @@ const VideoPlayer = ({ source, options, onReady }: VideoPlayerProps) => {
         () => {
           onReady && onReady(player);
           console.log("play");
-        }
+        },
       ));
     }
   }, [source, options, videoRef]);

@@ -4,7 +4,7 @@ import logger from "../utils/logger";
 export const requestLogger = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   logger.info(`${req.method} ${req.url}`);
   next();

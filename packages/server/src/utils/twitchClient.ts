@@ -7,11 +7,11 @@ import logger from "./logger";
 
 const authProvider = new StaticAuthProvider(
   config.twitch.clientId,
-  config.twitch.accessToken
+  config.twitch.accessToken,
 );
 const tokenAuthProvider = new AppTokenAuthProvider(
   config.twitch.clientId,
-  config.twitch.clientSecret
+  config.twitch.clientSecret,
 );
 
 export const twitchClient = new ApiClient({ authProvider });

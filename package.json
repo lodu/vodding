@@ -3,8 +3,5 @@
   "private": "true",
   "workspaces": [
     "packages/*"
-  ],
-  "scripts": {
-    "clean": "rm -f bun.lockb"
-  }
+  ]
 }

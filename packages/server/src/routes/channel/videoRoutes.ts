@@ -1,13 +1,12 @@
 import express from "express";
+import fs from "fs";
 import { StatusCodes } from "http-status-codes";
-import fs from "node:fs";
+import Bun from "bun"; // Assuming Bun is a valid import
 
-const streamRouter = express.Router();
+const videoRouter = express.Router();
 
-streamRouter.get("/video", async (req, res) => {
-  // const filePath = "./youtube_uOFTqVi-qp4_1280x720_h264.mp4";
-  const filePath =
-    "./Chase & Status, Bou - Baddadan ft. IRAH, Flowdan, Trigga, Takura [rkjNL4dX-U4].mp4";
+videoRouter.get("/", async (req, res) => {
+  const filePath = "./Chase & Status, Bou - Baddadan ft. IRAH, Flowdan, Trigga, Takura [rkjNL4dX-U4].mp4";
   type optionsType = {
     start: number | undefined;
     end: number | undefined;
@@ -45,6 +44,7 @@ streamRouter.get("/video", async (req, res) => {
 
   if (!(await videoFile.exists())) {
     res.status(StatusCodes.NOT_FOUND).send("Video File not found");
+    return;
   }
   let contentLength = videoFile.size;
 
@@ -78,9 +78,7 @@ streamRouter.get("/video", async (req, res) => {
     if (range !== undefined) {
       res.setHeader(
         "content-range",
-        `bytes ${options.start || 0}-${
-          options.end || contentLength - 1
-        }/${contentLength}`
+        `bytes ${options.start || 0}-${options.end || contentLength - 1}/${contentLength}`
       );
       res.setHeader("accept-ranges", "bytes");
     }
@@ -96,4 +94,4 @@ streamRouter.get("/video", async (req, res) => {
   }
 });
 
-export default streamRouter;
+export default videoRouter;

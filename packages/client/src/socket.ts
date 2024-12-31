@@ -8,11 +8,6 @@ export const socket: Socket = io(URL, {
   transports: ["websocket", "polling", "flashsocket"],
 });
 
-
 export const joinChannel = (channel: string) => {
-  socket.emit('joinChannel', channel);
+  socket.emit("joinChannel", channel);
 };
-
-socket.on('chatMessage', (message) => {
-  console.log('Received chat message:', message);
-});

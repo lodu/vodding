@@ -4,6 +4,7 @@ import { Replay } from "./pages/Livestream/Replay/Replay";
 import { useEffect, useState } from "react";
 import { socket } from "./socket";
 import { ConnectionState } from "./components/ConnectionState";
+import Chat from "./pages/Livestream/Chat";
 
 const App = () => {
   const [socketConnected, setSocketConnected] = useState(socket.connected);
@@ -41,6 +42,10 @@ const App = () => {
           <Route path="/">
             <Route path="livestream">
               <Route path="replay" element={<Replay />} />
+              <Route path=":channelName">
+                <Route path="replay" element={<Replay />} />
+                <Route path="chat" element={<Chat />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

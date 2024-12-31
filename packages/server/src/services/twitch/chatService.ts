@@ -12,12 +12,12 @@ listener.connect();
 //   chatClient.say(channel, "hallo!");
 // });
 export const startLogChat = (user: HelixUser) => {
-  const channelName = user.name
+  const channelName = user.name;
   chatClient.join(channelName);
   logger.debug(`Joined channel ${channelName}`);
 };
 export const stoptLogChat = (user: HelixUser) => {
-  const channelName = user.name
+  const channelName = user.name;
   chatClient.part(channelName);
   logger.debug(`Parted channel ${channelName}`);
 };
@@ -25,5 +25,5 @@ export const stoptLogChat = (user: HelixUser) => {
 chatClient.onMessage(
   async (channel: string, user: string, text: string, msg: ChatMessage) => {
     await chatController.handleIncomingMessage(channel, user, text, msg);
-  }
+  },
 );

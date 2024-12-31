@@ -23,9 +23,8 @@ interface Config {
   serverPort: number;
   twitch: TwitchConfig;
   database: DatabaseConfig;
-  datastore: DatastoreConfig
+  datastore: DatastoreConfig;
 }
-
 
 const getEnvVar = (key: string, defaultValue?: string): string => {
   const value = env[key];
@@ -56,7 +55,7 @@ const config: Config = {
   },
   datastore: {
     folder: getEnvVar("DATASTORE_FOLDER"),
-  }
+  },
 };
 
 export default config;

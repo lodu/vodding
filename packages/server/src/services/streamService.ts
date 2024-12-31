@@ -25,9 +25,9 @@ export const startStreamRecording = async ({
     process.stdout?.pipeTo(
       new WritableStream({
         write(chunk) {
-          logger.info(`Streamlink stdout: ${new TextDecoder().decode(chunk)}`);
+          logger.debug(`Streamlink stdout: ${new TextDecoder().decode(chunk)}`);
         },
-      })
+      }),
     );
 
     process.stderr?.pipeTo(
@@ -35,17 +35,17 @@ export const startStreamRecording = async ({
         write(chunk) {
           logger.warn(`Streamlink stderr: ${new TextDecoder().decode(chunk)}`);
         },
-      })
+      }),
     );
 
     const exitCode = await process.exited;
     if (exitCode === 0) {
       logger.info(
-        `Streamlink process completed successfully for streamer: ${streamerName}`
+        `Streamlink process completed successfully for streamer: ${streamerName}`,
       );
     } else {
       logger.error(
-        `Streamlink process failed for streamer: ${streamerName} with exit code: ${exitCode}`
+        `Streamlink process failed for streamer: ${streamerName} with exit code: ${exitCode}`,
       );
     }
   } catch (error) {
