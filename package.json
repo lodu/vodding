@@ -21,7 +21,7 @@
   },
   "private": "true",
   "scripts": {
-    "prepare": "husky",
+    "prepare": "husky"
   },
   "type": "module",
   "workspaces": [

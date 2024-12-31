@@ -4,10 +4,16 @@ import type { ChatMessage } from "@twurple/chat";
 import FileStoreService from "../services/datastores/fileStoreService";
 import { io } from "../websockets/socket";
 import logger from "../utils/logger";
-import type { TransmittedChatMessage, VoddingChatUser, VoddingChatMessage } from "@vodding/common/chatTypes";
+import type {
+  TransmittedChatMessage,
+  VoddingChatUser,
+  VoddingChatMessage,
+} from "@vodding/common/chatTypes";
 import { getUserByUsername } from "../services/twitch/apiService";
 
-const mapChatMessageToVoddingChatMessage = async (msg: ChatMessage): Promise<VoddingChatMessage> => {
+const mapChatMessageToVoddingChatMessage = async (
+  msg: ChatMessage,
+): Promise<VoddingChatMessage> => {
   return {
     id: msg.id,
     date: msg.date,
@@ -23,7 +29,9 @@ const mapChatMessageToVoddingChatMessage = async (msg: ChatMessage): Promise<Vod
       isFounder: msg.userInfo.isFounder,
       isVip: msg.userInfo.isVip,
       isArtist: msg.userInfo.isArtist,
-      profilePictureUrl: await getUserByUsername(msg.userInfo.userName).then(user => user.profilePictureUrl),
+      profilePictureUrl: await getUserByUsername(msg.userInfo.userName).then(
+        (user) => user.profilePictureUrl,
+      ),
     },
     channelId: msg.channelId,
     isCheer: msg.isCheer,
@@ -50,7 +58,7 @@ const mapChatMessageToVoddingChatMessage = async (msg: ChatMessage): Promise<Vod
     hypeChatLevel: msg.hypeChatLevel,
     hypeChatIsSystemMessage: msg.hypeChatIsSystemMessage,
   };
-}
+};
 
 class ChatController {
   async handleIncomingMessage(
@@ -59,9 +67,7 @@ class ChatController {
     text: string,
     msg: ChatMessage,
   ): Promise<void> {
-
     const voddingMsg = await mapChatMessageToVoddingChatMessage(msg);
-
 
     FileStoreService.writeChatMessage(channel, user, text, voddingMsg);
 
@@ -69,7 +75,7 @@ class ChatController {
       channel,
       user,
       text,
-      voddingMsg: voddingMsg
+      voddingMsg: voddingMsg,
     };
 
     io.to(channel).emit("chatMessage", transmittedMsg);
@@ -77,5 +83,3 @@ class ChatController {
 }
 
 export const chatController = new ChatController();
-
-

@@ -6,8 +6,6 @@ import { setupTwitchListeners } from "./services/twitch/eventSubService";
 import { initializeSocket } from "./websockets/socket";
 const PORT = config.serverPort;
 
-
-
 const server = createServer(app);
 initializeSocket(server);
 

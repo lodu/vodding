@@ -14,7 +14,7 @@ const createListener = async (userName: string, record: boolean) => {
   const user = await getUserByUsername(userName);
 
   startLogChat(user);
-  if (!record) return
+  if (!record) return;
   listener.onStreamOnline(user, (event) => {
     const streamerName = event.broadcasterDisplayName;
     logger.debug(`${streamerName} just went live! Starting recording...`);

@@ -6,7 +6,8 @@ import Bun from "bun"; // Assuming Bun is a valid import
 const videoRouter = express.Router();
 
 videoRouter.get("/", async (req, res) => {
-  const filePath = "./Chase & Status, Bou - Baddadan ft. IRAH, Flowdan, Trigga, Takura [rkjNL4dX-U4].mp4";
+  const filePath =
+    "./Chase & Status, Bou - Baddadan ft. IRAH, Flowdan, Trigga, Takura [rkjNL4dX-U4].mp4";
   type optionsType = {
     start: number | undefined;
     end: number | undefined;
@@ -78,7 +79,7 @@ videoRouter.get("/", async (req, res) => {
     if (range !== undefined) {
       res.setHeader(
         "content-range",
-        `bytes ${options.start || 0}-${options.end || contentLength - 1}/${contentLength}`
+        `bytes ${options.start || 0}-${options.end || contentLength - 1}/${contentLength}`,
       );
       res.setHeader("accept-ranges", "bytes");
     }

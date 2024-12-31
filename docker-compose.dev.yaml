@@ -9,7 +9,7 @@ services:
       - ./packages/app:/app/packages/app
     expose:
       - "5432"
-    command: [ "run", "dev" ]
+    command: ["run", "dev"]
   web:
     build:
       context: .
@@ -20,7 +20,7 @@ services:
       - ./packages/web:/app/packages/web
     expose:
       - "3000"
-    command: [ "run", "dev" ]
+    command: ["run", "dev"]
     depends_on:
       - - app
   nginx:

@@ -1,5 +1,5 @@
 import logger from "../utils/logger";
-import { spawn } from 'bun';
+import { spawn } from "bun";
 import type { StartStreamRecording } from "../types/streamTypes";
 export const startStreamRecording = async ({
   streamerName,
