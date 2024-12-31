@@ -10,7 +10,7 @@ type ChatMessageData = {
 const defaultData: ChatMessageData = { messages: [] };
 
 const filePath = (channel: string): string => {
-  return path.join(config.datastore.folder, `${channel}.json`);
+  return path.join(config.datastore.folder, 'chat', `${channel}.json`);
 };
 
 const FileStoreService = {

@@ -1,6 +1,8 @@
 import logger from "../utils/logger";
 import { spawn } from "bun";
 import type { StartStreamRecording } from "../types/streamTypes";
+import config from "../utils/config";
+import * as path from 'path';
 export const startStreamRecording = async ({
   streamerName,
   quality,
@@ -11,7 +13,7 @@ export const startStreamRecording = async ({
     `twitch.tv/${streamerName}`,
     quality,
     "-o",
-    `./recordings/${streamerName}-${readableDate}.mp4`,
+    path.join(config.datastore.folder, 'video', `${streamerName}-${readableDate}.mp4`),
     "-f",
   ];
   console.error(args);

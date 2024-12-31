@@ -1,12 +1,12 @@
 import { env } from "bun";
 
-interface DatabaseConfig {
-  name: string;
-  host: string;
-  port: number;
-  user: string;
-  password: string;
-}
+// interface DatabaseConfig {
+//   name: string;
+//   host: string;
+//   port: number;
+//   user: string;
+//   password: string;
+// }
 
 interface TwitchConfig {
   oAuth: string;
@@ -22,7 +22,7 @@ interface DatastoreConfig {
 interface Config {
   serverPort: number;
   twitch: TwitchConfig;
-  database: DatabaseConfig;
+  // database: DatabaseConfig;
   datastore: DatastoreConfig;
 }
 
@@ -46,13 +46,13 @@ const config: Config = {
     accessToken: getEnvVar("TWITCH_ACCESS_TOKEN"),
     nick: getEnvVar("TWITCH_IRC_NICK"),
   },
-  database: {
-    name: getEnvVar("DATABASE_NAME"),
-    host: getEnvVar("DATABASE_HOST"),
-    port: parseInt(getEnvVar("DATABASE_PORT", "5432")),
-    user: getEnvVar("DATABASE_USER"),
-    password: getEnvVar("DATABASE_PASSWORD"),
-  },
+  // database: {
+  //   name: getEnvVar("DATABASE_NAME"),
+  //   host: getEnvVar("DATABASE_HOST"),
+  //   port: parseInt(getEnvVar("DATABASE_PORT", "5432")),
+  //   user: getEnvVar("DATABASE_USER"),
+  //   password: getEnvVar("DATABASE_PASSWORD"),
+  // },
   datastore: {
     folder: getEnvVar("DATASTORE_FOLDER"),
   },
