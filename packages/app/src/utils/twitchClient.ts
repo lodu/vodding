@@ -2,7 +2,7 @@ import { AppTokenAuthProvider, StaticAuthProvider } from "@twurple/auth";
 
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import config from "./config";
+import config from "../config";
 import logger from "./logger";
 
 const authProvider = new StaticAuthProvider(

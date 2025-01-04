@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client";
 
 export const socket: Socket = io({
-  path: "/app/socket/",
+  // path: "/app/socket/",
   transports: ["websocket", "polling", "flashsocket"],
 });
 

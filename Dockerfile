@@ -13,6 +13,7 @@ LABEL org.opencontainers.image.title="Vodding - The Ultimate Streaming Experienc
 LABEL org.opencontainers.image.description="A blazing fast component for the revolutionary Vodding application. Stream like never before! 🎉"
 
 
+
 WORKDIR /app/
 
 FROM base AS install

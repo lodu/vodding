@@ -27,47 +27,65 @@ Welcome to **Vodding**, the ultimate streaming experience! Vodding is a blazing 
 
 1. **Clone the repository**:
 
-    ```bash
-    git clone https://github.com/lodu/vodding.git
-    cd vodding
-    ```
+   ```bash
+   git clone https://github.com/lodu/vodding.git
+   cd vodding
+   ```
 
 2. **Create a `.env` file**:
 
-    Copy the `example.env` file to `.env` and fill in the required environment variables.
+   Copy the `example.env` file to `.env` and fill in the required environment variables.
 
-    ```bash
-    cp example.env .env
-    ```
+   ```bash
+   cp example.env .env
+   ```
 
 3. **Run Docker for development**:
 
-    ```bash
-    docker-compose -f docker-compose.dev.yaml up --build
-    ```
+   ```bash
+   docker-compose -f docker-compose.dev.yaml up --build
+   ```
+
+   4. **Start the App and Web services**:
+
+      Since the app and web containers don't do anything by themselves, you'll need to execute the following commands:
+      You can attach VSC to the containers and run `bun run dev` inside `/app/src/packages/<app|web>` or:
+
+      ```bash
+      docker-compose -f docker-compose.dev.yaml exec app bash -c "cd /app/packages/app && bun run dev"
+      docker-compose -f docker-compose.dev.yaml exec web bash -c "cd /app/packages/web && bun run dev"
+      ```
+
+   ### MongoDB Migrations
+
+   This project uses MongoDB migrations to manage database schema changes. To create a new migration, use the following command:
+
+   ```sh
+   bun migrate create <MIGRATION_MESSAGE>
+   ```
+
+   This command utilizes the [ts-migrate-mongoose](https://www.npmjs.com/package/ts-migrate-mongoose) package to handle the migration process. Ensure that you replace `<MIGRATION_MESSAGE>` with a descriptive message about the migration.
 
 ### Production Setup
 
-1. **Clone the repository**:
+git clone https://github.com/lodu/vodding.git
+cd vodding
 
-    ```bash
-    git clone https://github.com/lodu/vodding.git
-    cd vodding
-    ```
+````
 
 2. **Create a `.env` file**:
 
-    Copy the `example.env` file to `.env` and fill in the required environment variables.
+Copy the `example.env` file to `.env` and fill in the required environment variables.
 
-    ```bash
-    cp example.env .env
-    ```
+```bash
+cp example.env .env
+````
 
 3. **Run Docker for production**:
 
-    ```bash
-    docker-compose up --build
-    ```
+   ```bash
+   docker-compose up --build
+   ```
 
 ## 🚀 How It Works
 
@@ -104,4 +122,3 @@ For any inquiries, please contact [Ludo](mailto:ludo@lodu.dev).
 ---
 
 Made with ❤️ by [Ludo](https://github.com/lodu)
-

@@ -1,0 +1,16 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "ESNext",
+    "keepClassNames": true,
+    "loose": true
+  },
+  "module": {
+    "type": "ESNext"
+  },
+  "sourceMaps": true
+}

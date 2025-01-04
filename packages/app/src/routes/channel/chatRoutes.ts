@@ -1,7 +1,6 @@
 import express, { type Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import { error } from "winston";
-import FileStoreService from "../../services/datastores/fileStoreService";
 import logger from "../../utils/logger";
 
 const chatRouter = express.Router({ mergeParams: true });

@@ -8,22 +8,27 @@
     "start": "bun dist/server.js"
   },
   "dependencies": {
-    "@vodding/common": "workspace:*",
     "@twurple/api": "^7.1.0",
     "@twurple/auth": "^7.1.0",
     "@twurple/chat": "^7.1.0",
     "@twurple/eventsub-ws": "^7.1.0",
     "@types/http-status-codes": "^1.2.0",
-    "ajv": "^8.17.1",
+    "@vodding/common": "workspace:*",
+    "bullmq": "^5.34.6",
     "express": "^4.19.2",
     "http-status-code": "^2.1.0",
-    "lowdb": "^7.0.1",
-    "socket.io": "^4.7.5",
+    "ioredis": "^5.4.2",
+    "mongoose": "^8.9.3",
+    "socket.io": "4.8.1",
+    "ts-cache-mongoose": "^1.6.7",
+    "ts-migrate-mongoose": "^3.8.7",
     "winston": "^3.14.2"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/express": "^4.17.21"
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "tsx": "^4.19.2"
   },
   "peerDependencies": {
     "typescript": "^5.5.4"

@@ -6,7 +6,8 @@ let io: SocketIOServer;
 
 export const initializeSocket = (server: HttpServer) => {
   io = new SocketIOServer(server, {
-    path: "/app/socket/",
+    // path: "/app/socket/",
+    addTrailingSlash: false,
     cors: {
       origin: "*",
     },

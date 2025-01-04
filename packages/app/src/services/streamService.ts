@@ -1,61 +1,14 @@
 import logger from "../utils/logger";
 import { spawn } from "bun";
-import type { StartStreamRecording } from "../types/streamTypes";
-import config from "../utils/config";
-import * as path from 'path';
-export const startStreamRecording = async ({
-  streamerName,
-  quality,
-}: StartStreamRecording) => {
-  const readableDate = new Date().toISOString().replace(/:/g, "_");
-  const command = "streamlink";
-  const args = [
-    `twitch.tv/${streamerName}`,
-    quality,
-    "-o",
-    path.join(config.datastore.folder, 'video', `${streamerName}-${readableDate}.mp4`),
-    "-f",
-  ];
-  console.error(args);
+import config from "../config";
+import * as path from "path";
+import { streamRecordQueue } from "../queues";
+import type { StreamJobData } from "../workers/streamRecordWorker";
 
-  try {
-    const process = spawn({
-      cmd: [command, ...args],
-      stdout: "pipe",
-      stderr: "pipe",
-    });
-
-    process.stdout?.pipeTo(
-      new WritableStream({
-        write(chunk) {
-          logger.debug(`Streamlink stdout: ${new TextDecoder().decode(chunk)}`);
-        },
-      }),
-    );
-
-    process.stderr?.pipeTo(
-      new WritableStream({
-        write(chunk) {
-          logger.warn(`Streamlink stderr: ${new TextDecoder().decode(chunk)}`);
-        },
-      }),
-    );
-
-    const exitCode = await process.exited;
-    if (exitCode === 0) {
-      logger.info(
-        `Streamlink process completed successfully for streamer: ${streamerName}`,
-      );
-    } else {
-      logger.error(
-        `Streamlink process failed for streamer: ${streamerName} with exit code: ${exitCode}`,
-      );
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      logger.error(`Error starting Streamlink: ${error.message}`);
-    } else {
-      logger.error(`Unexpected error starting Streamlink: ${error}`);
-    }
-  }
+export const startStreamRecording = async (streamerName: string) => {
+  const jobData: StreamJobData = {
+    streamerName: streamerName,
+    quality: "best",
+  };
+  await streamRecordQueue.add("streamRecord", jobData);
 };

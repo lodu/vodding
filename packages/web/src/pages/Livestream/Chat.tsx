@@ -17,6 +17,7 @@ function Chat() {
     }
 
     socket.on("chatMessage", (message: TransmittedChatMessage) => {
+      console.log("Received chat message", message);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 

@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 import type { ChatMessage } from "@twurple/chat";
-import FileStoreService from "../services/datastores/fileStoreService";
 import { io } from "../websockets/socket";
 import logger from "../utils/logger";
 import type {
@@ -10,6 +9,7 @@ import type {
   VoddingChatMessage,
 } from "@vodding/common/chatTypes";
 import { getUserByUsername } from "../services/twitch/apiService";
+import saveChatMessage from "../services/database/chatMessageService";
 
 const mapChatMessageToVoddingChatMessage = async (
   msg: ChatMessage,
@@ -67,18 +67,18 @@ class ChatController {
     text: string,
     msg: ChatMessage,
   ): Promise<void> {
-    const voddingMsg = await mapChatMessageToVoddingChatMessage(msg);
-
-    FileStoreService.writeChatMessage(channel, user, text, voddingMsg);
+    const message = await mapChatMessageToVoddingChatMessage(msg);
 
     const transmittedMsg: TransmittedChatMessage = {
       channel,
       user,
       text,
-      voddingMsg: voddingMsg,
+      voddingMsg: message,
     };
 
     io.to(channel).emit("chatMessage", transmittedMsg);
+
+    await saveChatMessage(message);
   }
 }
 
