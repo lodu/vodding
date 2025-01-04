@@ -1,8 +1,5 @@
-import logger from "../utils/logger";
-import { spawn } from "bun";
-import config from "../config";
-import * as path from "path";
 import { streamRecordQueue } from "../queues";
+import logger from "../utils/logger";
 import type { StreamJobData } from "../workers/streamRecordWorker";
 
 export const startStreamRecording = async (streamerName: string) => {
@@ -10,5 +7,6 @@ export const startStreamRecording = async (streamerName: string) => {
     streamerName: streamerName,
     quality: "best",
   };
-  await streamRecordQueue.add("streamRecord", jobData);
+  logger.info(`Adding stream record job for ${streamerName}`);
+  await streamRecordQueue.add(`streamRecord ${streamerName}`, jobData);
 };

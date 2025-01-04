@@ -6,7 +6,7 @@ export const getUserByUsername = async (
 ): Promise<HelixUser> => {
   return await twitchClient.users.getUserByName(username).then((user) => {
     if (!user) {
-      console.error(`User ${username} not found`);
+      logger.error(`User ${username} not found`);
       throw new Error(`User ${username} not found`);
     }
     return user;

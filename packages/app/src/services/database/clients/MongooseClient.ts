@@ -19,7 +19,7 @@ if (config.vodding.mongo.cache.enabled) {
       host: config.vodding.redisConnection.host,
       port: config.vodding.redisConnection.port,
     },
-    debug: config.environment === "development" ? true : false,
+    // debug: config.environment === "development" ? true : false,
   });
 }
 

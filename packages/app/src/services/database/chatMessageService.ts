@@ -80,18 +80,16 @@ async function createChatMessageModelFromMessage(
 export default async function saveChatMessage(
   voddingChatMessage: VoddingChatMessage,
 ) {
-  logger.error(JSON.stringify(voddingChatMessage));
   const chatMessageData =
     await createChatMessageModelFromMessage(voddingChatMessage);
   const chatMessage = new ChatMessageModel(chatMessageData);
-  logger.error(JSON.stringify(chatMessage));
   return await chatMessage.save();
 }
 
 export async function getChatMessagesByChannel(channelId: string) {
   return await ChatMessageModel.find({ channelId })
     .populate<{ userInfo: IChatUser }>("userInfo")
-    .cache()
+
     .exec();
 }
 
@@ -99,7 +97,7 @@ export async function getChatMessagesByChannel(channelId: string) {
 export async function getChatMessagesByUser(userId: string) {
   return await ChatMessageModel.find({ userInfo: userId })
     .populate<{ userInfo: IChatUser }>("userInfo")
-    .cache()
+
     .exec();
 }
 
@@ -109,7 +107,7 @@ export async function getChatMessagesByChannelAndUser(
 ) {
   return await ChatMessageModel.find({ channelId, userInfo: userId })
     .populate<{ userInfo: IChatUser }>("userInfo")
-    .cache()
+
     .exec();
 }
 
@@ -122,7 +120,7 @@ export async function getChatMessagesByDateRange(
     date: { $gte: startDate, $lte: endDate },
   })
     .populate<{ userInfo: IChatUser }>("userInfo")
-    .cache()
+
     .exec();
 }
 
@@ -145,6 +143,6 @@ export async function getChatMessagesByUsernameInChannel(
 export async function getChatMessagesByFilter(filter: ChatMessageFilter) {
   return await ChatMessageModel.find(filter)
     .populate<{ userInfo: IChatUser }>("userInfo")
-    .cache()
+
     .exec();
 }

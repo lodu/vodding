@@ -15,6 +15,7 @@ const ChatUserSchema = new Schema<IChatUser>({
       displayName: { type: String },
       profilePictureUrl: { type: String },
       color: { type: String },
+      userType: { type: String },
     },
   ],
 });

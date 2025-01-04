@@ -19,10 +19,11 @@ const createListener = async (userName: string, record: boolean) => {
     logger.debug(`${streamerName} just went live! Starting recording...`);
     startStreamRecording(streamerName);
   });
+  logger.info(`Listener created for ${userName}`);
 
-  // Check if the stream is already live
   const stream = await twitchClient.streams.getStreamByUserId(user.id);
   if (stream) {
+    logger.info(`Listener created for ${stream.title}`);
     logger.debug(`${user.displayName} is already live! Starting recording...`);
     startStreamRecording(user.displayName);
   }
@@ -30,17 +31,23 @@ const createListener = async (userName: string, record: boolean) => {
 
 export const setupTwitchListeners = async (record = true) => {
   try {
-    const recordingNames = ["marklahhh"];
+    const recordingNames = ["nymn"];
 
     recordingNames.forEach(async (name: string) => {
       await createListener(name, record)
         .then(() => {
           logger.info(`Twitch EventSub WebSocket listener set up for ${name}`);
         })
-        .catch((e: any) => {
-          logger.error(
-            `Error setting up Twitch EventSub WebSocket listener for ${name}: ${e.message}`,
-          );
+        .catch((e: unknown) => {
+          if (e instanceof Error) {
+            logger.error(
+              `Error setting up Twitch EventSub WebSocket listener for ${name}: ${e.message}`,
+            );
+          } else {
+            logger.error(
+              `Error setting up Twitch EventSub WebSocket listener for ${name}: ${e}`,
+            );
+          }
         });
     });
 

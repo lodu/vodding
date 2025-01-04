@@ -86,8 +86,8 @@ videoRouter.get("/", async (req, res) => {
 
     const fileStream = fs.createReadStream(filePath, options);
     fileStream.on("error", (error) => {
-      console.log(`Error reading file ${filePath}.`);
-      console.log(error);
+      logger.info(`Error reading file ${filePath}.`);
+      logger.info(error);
       res.sendStatus(500);
     });
 

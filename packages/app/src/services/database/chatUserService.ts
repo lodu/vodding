@@ -1,3 +1,4 @@
+import type { IChatUserHistory } from "./interfaces";
 import ChatUserModel from "./models/ChatUser";
 import type { VoddingChatMessage } from "@vodding/common/chatTypes";
 
@@ -33,7 +34,7 @@ export async function createChatUserModelFromMessage(
 
 export async function getOrCreateUser(message: VoddingChatMessage) {
   let user = await ChatUserModel.findOne({ userId: message.userInfo.userId })
-    .cache()
+
     .exec();
 
   if (user) {
@@ -45,21 +46,22 @@ export async function getOrCreateUser(message: VoddingChatMessage) {
       user.userType !== message.userInfo.userType;
 
     if (hasChanges) {
-      const historyEntry = {
+      const historyEntries = user.history;
+      historyEntries.push({
         date: new Date(),
         userName: user.userName,
         displayName: user.displayName,
         profilePictureUrl: user.profilePictureUrl,
         color: user.color,
         userType: user.userType,
-      };
-      user.history.push(historyEntry);
-
+      } as IChatUserHistory);
       user.userName = message.userInfo.userName;
       user.displayName = message.userInfo.displayName;
       user.profilePictureUrl = message.userInfo.profilePictureUrl;
       user.color = message.userInfo.color;
       user.userType = message.userInfo.userType;
+      user.history = historyEntries;
+
       await user.save();
     }
   } else {

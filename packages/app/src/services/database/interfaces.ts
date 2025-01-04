@@ -5,6 +5,8 @@ export interface IChatUserHistory {
   userName?: string;
   displayName?: string;
   profilePictureUrl?: string;
+  color?: string;
+  userType?: string;
 }
 
 export interface IChatUser {

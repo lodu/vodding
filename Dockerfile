@@ -33,6 +33,10 @@ FROM base AS app_development
 COPY . /app/
 RUN bun install
 
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    apt-get -y install --no-install-recommends streamlink && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app/packages/app/
 ENV NODE_ENV=development
@@ -63,6 +67,12 @@ RUN bun run build
 
 FROM base AS app_production
 COPY --from=app_production_build /app/packages/app/dist /app/packages/app/dist
+
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    apt-get -y install --no-install-recommends streamlink && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 
 COPY packages/common/package.json /app/packages/common/
 COPY packages/app/package.json /app/packages/app/
