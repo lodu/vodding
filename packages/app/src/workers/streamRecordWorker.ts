@@ -16,7 +16,10 @@ const streamRecordWorker = new Worker<StreamJobData>(
   async (job: Job<StreamJobData>) => {
     const { streamerName, quality } = job.data;
     const readableDate = new Date().toISOString().replace(/:/g, "_");
-    const lockFilePath = path.join(config.vodding.storageFolder.videos, `.${streamerName}.lock`);
+    const lockFilePath = path.join(
+      config.vodding.storageFolder.videos,
+      `.${streamerName}.lock`,
+    );
 
     // Check if lock file exists
     if (fs.existsSync(lockFilePath)) {

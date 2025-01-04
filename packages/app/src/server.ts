@@ -17,12 +17,11 @@ setupFolders(config);
 await MongooseClient.connect();
 await MigrationClient.connect();
 
-setupStreamRecordWorker()
+setupStreamRecordWorker();
 const server = createServer(app);
 initializeSocket(server);
 
 server.listen(PORT, async () => {
   logger.info(`Server is running on port ${PORT}`);
   await setupTwitchListeners(true);
-
 });
