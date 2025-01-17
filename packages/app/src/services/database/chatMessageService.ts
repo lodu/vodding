@@ -1,10 +1,9 @@
-import logger from "../../utils/logger";
+import type { VoddingTwitchChatMessage } from "@vodding/common/chatTypes";
 import { getOrCreateUser } from "./chatUserService";
-import type { IChatMessage, IChatUser, IUserDynamicFields } from "./interfaces";
-import ChatMessageModel from "./models/ChatMessage";
-import type { VoddingChatMessage } from "@vodding/common/chatTypes";
+import type { ITwitchChatMessage, ITwitchUser } from "./interfaces";
+import TwitchChatMessageModel from "./models/TwitchChatMessage";
 
-export interface ChatMessageFilter {
+export interface TwitchChatMessageFilter {
   id?: string;
   date?: { $gte?: Date; $lte?: Date };
   channelId?: string | null;
@@ -31,9 +30,9 @@ export interface ChatMessageFilter {
   hypeChatIsSystemMessage?: boolean | null;
   authorId: string;
 }
-async function createChatMessageModelFromMessage(
-  message: VoddingChatMessage,
-): Promise<IChatMessage> {
+async function createTwitchChatMessageModelFromMessage(
+  message: VoddingTwitchChatMessage,
+): Promise<ITwitchChatMessage> {
   const userInfo = await getOrCreateUser(message);
 
   return {
@@ -63,7 +62,7 @@ async function createChatMessageModelFromMessage(
     hypeChatCurrency: message.hypeChatCurrency,
     hypeChatLevel: message.hypeChatLevel,
     hypeChatIsSystemMessage: message.hypeChatIsSystemMessage ?? false,
-    userInfo: userInfo._id, // Reference to the ChatUser document
+    userInfo: userInfo._id, // Reference to the TwitchUser document
     userDynamicFields: {
       badges: message.userInfo.badges,
       badgeInfo: message.userInfo.badgeInfo,
@@ -77,60 +76,61 @@ async function createChatMessageModelFromMessage(
   };
 }
 
-export default async function saveChatMessage(
-  voddingChatMessage: VoddingChatMessage,
+export default async function saveTwitchChatMessage(
+  voddingTwitchChatMessage: VoddingTwitchChatMessage,
 ) {
-  const chatMessageData =
-    await createChatMessageModelFromMessage(voddingChatMessage);
-  const chatMessage = new ChatMessageModel(chatMessageData);
-  return await chatMessage.save();
+  const TwitchChatMessageData = await createTwitchChatMessageModelFromMessage(
+    voddingTwitchChatMessage,
+  );
+  const TwitchChatMessage = new TwitchChatMessageModel(TwitchChatMessageData);
+  return await TwitchChatMessage.save();
 }
 
-export async function getChatMessagesByChannel(channelId: string) {
-  return await ChatMessageModel.find({ channelId })
-    .populate<{ userInfo: IChatUser }>("userInfo")
+export async function getTwitchChatMessagesByChannel(channelId: string) {
+  return await TwitchChatMessageModel.find({ channelId })
+    .populate<{ userInfo: ITwitchUser }>("userInfo")
 
     .exec();
 }
 
 // Query chat messages for a specific user
-export async function getChatMessagesByUser(userId: string) {
-  return await ChatMessageModel.find({ userInfo: userId })
-    .populate<{ userInfo: IChatUser }>("userInfo")
+export async function getTwitchChatMessagesByUser(userId: string) {
+  return await TwitchChatMessageModel.find({ userInfo: userId })
+    .populate<{ userInfo: ITwitchUser }>("userInfo")
 
     .exec();
 }
 
-export async function getChatMessagesByChannelAndUser(
+export async function getTwitchChatMessagesByChannelAndUser(
   channelId: string,
   userId: string,
 ) {
-  return await ChatMessageModel.find({ channelId, userInfo: userId })
-    .populate<{ userInfo: IChatUser }>("userInfo")
+  return await TwitchChatMessageModel.find({ channelId, userInfo: userId })
+    .populate<{ userInfo: ITwitchUser }>("userInfo")
 
     .exec();
 }
 
 // Query chat messages by date range
-export async function getChatMessagesByDateRange(
+export async function getTwitchChatMessagesByDateRange(
   startDate: Date,
   endDate: Date,
 ) {
-  return await ChatMessageModel.find({
+  return await TwitchChatMessageModel.find({
     date: { $gte: startDate, $lte: endDate },
   })
-    .populate<{ userInfo: IChatUser }>("userInfo")
+    .populate<{ userInfo: ITwitchUser }>("userInfo")
 
     .exec();
 }
 
-export async function getChatMessagesByUsernameInChannel(
+export async function getTwitchChatMessagesByUsernameInChannel(
   channelId: string,
   author: string,
   startDate: Date,
   endDate: Date,
 ) {
-  const messagesByDateRange = await getChatMessagesByDateRange(
+  const messagesByDateRange = await getTwitchChatMessagesByDateRange(
     startDate,
     endDate,
   );
@@ -140,9 +140,11 @@ export async function getChatMessagesByUsernameInChannel(
   );
 }
 
-export async function getChatMessagesByFilter(filter: ChatMessageFilter) {
-  return await ChatMessageModel.find(filter)
-    .populate<{ userInfo: IChatUser }>("userInfo")
+export async function getTwitchChatMessagesByFilter(
+  filter: TwitchChatMessageFilter,
+) {
+  return await TwitchChatMessageModel.find(filter)
+    .populate<{ userInfo: ITwitchUser }>("userInfo")
 
     .exec();
 }

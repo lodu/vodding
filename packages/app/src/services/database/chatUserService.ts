@@ -1,8 +1,8 @@
-import type { IChatUserHistory } from "./interfaces";
-import ChatUserModel from "./models/ChatUser";
-import type { VoddingChatMessage } from "@vodding/common/chatTypes";
+import type { ITwitchUserHistory } from "./interfaces";
+import TwitchUserModel from "./models/TwitchUser";
+import type { VoddingTwitchChatMessage } from "@vodding/common/chatTypes";
 
-export interface ChatUserFilter {
+export interface TwitchUserFilter {
   userId?: string;
   userName?: string;
   displayName?: string;
@@ -16,10 +16,10 @@ export interface ChatUserFilter {
     profilePictureUrl?: string;
   };
 }
-export async function createChatUserModelFromMessage(
-  message: VoddingChatMessage,
+export async function createTwitchUserModelFromMessage(
+  message: VoddingTwitchChatMessage,
 ) {
-  const chatUser = new ChatUserModel({
+  const TwitchUser = new TwitchUserModel({
     userId: message.userInfo.userId,
     userName: message.userInfo.userName,
     displayName: message.userInfo.displayName,
@@ -28,12 +28,12 @@ export async function createChatUserModelFromMessage(
     userType: message.userInfo.userType,
   });
 
-  await chatUser.save();
-  return chatUser;
+  await TwitchUser.save();
+  return TwitchUser;
 }
 
-export async function getOrCreateUser(message: VoddingChatMessage) {
-  let user = await ChatUserModel.findOne({ userId: message.userInfo.userId })
+export async function getOrCreateUser(message: VoddingTwitchChatMessage) {
+  let user = await TwitchUserModel.findOne({ userId: message.userInfo.userId })
 
     .exec();
 
@@ -54,7 +54,7 @@ export async function getOrCreateUser(message: VoddingChatMessage) {
         profilePictureUrl: user.profilePictureUrl,
         color: user.color,
         userType: user.userType,
-      } as IChatUserHistory);
+      } as ITwitchUserHistory);
       user.userName = message.userInfo.userName;
       user.displayName = message.userInfo.displayName;
       user.profilePictureUrl = message.userInfo.profilePictureUrl;
@@ -65,7 +65,7 @@ export async function getOrCreateUser(message: VoddingChatMessage) {
       await user.save();
     }
   } else {
-    user = await createChatUserModelFromMessage(message);
+    user = await createTwitchUserModelFromMessage(message);
   }
 
   return user;

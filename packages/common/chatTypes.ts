@@ -1,23 +1,26 @@
-export interface VoddingChatUser {
-  readonly userName: string;
+export interface VoddingTwitchUser {
+  userName: string;
   displayName: string;
+  userId: string;
+  userType?: string;
+  profilePictureUrl: string;
+}
+
+export interface VoddingTwitchChatUser extends VoddingTwitchUser {
   color?: string;
   badges: Map<string, string>;
   badgeInfo: Map<string, string>;
-  userId: string;
-  userType?: string;
   isBroadcaster: boolean;
   isSubscriber: boolean;
   isFounder: boolean;
   isMod: boolean;
   isVip: boolean;
   isArtist: boolean;
-  profilePictureUrl: string;
 }
-export interface VoddingChatMessage {
+export interface VoddingTwitchChatMessage {
   id: string;
   date: Date;
-  userInfo: VoddingChatUser;
+  userInfo: VoddingTwitchChatUser;
   channelId: string | null;
   isCheer: boolean;
   isRedemption: boolean;
@@ -44,9 +47,9 @@ export interface VoddingChatMessage {
   hypeChatIsSystemMessage: boolean | null;
 }
 
-export interface TransmittedChatMessage {
+export interface VoddingTransmittedTwitchChatMessage {
   channel: string;
   user: string;
   text: string;
-  voddingMsg: VoddingChatMessage;
+  voddingMsg: VoddingTwitchChatMessage;
 }

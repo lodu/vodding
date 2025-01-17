@@ -1,6 +1,6 @@
 import type { Types } from "mongoose";
 
-export interface IChatUserHistory {
+export interface ITwitchUserHistory {
   date: Date;
   userName?: string;
   displayName?: string;
@@ -9,14 +9,14 @@ export interface IChatUserHistory {
   userType?: string;
 }
 
-export interface IChatUser {
+export interface ITwitchUser {
   userName: string;
   displayName: string;
   profilePictureUrl: string;
   userId: string;
   color?: string;
   userType?: string;
-  history: IChatUserHistory[];
+  history: ITwitchUserHistory[];
 }
 
 export interface IUserDynamicFields {
@@ -30,7 +30,7 @@ export interface IUserDynamicFields {
   isArtist: boolean;
 }
 
-export interface IChatMessage {
+export interface ITwitchChatMessage {
   id: string;
   date: Date;
   channelId: string | null;
@@ -57,13 +57,13 @@ export interface IChatMessage {
   hypeChatCurrency: string | null;
   hypeChatLevel: number | null;
   hypeChatIsSystemMessage: boolean | null;
-  userInfo: Types.ObjectId; // ObjectId reference to ChatUser
+  userInfo: Types.ObjectId; // ObjectId reference to TwitchUser
   userDynamicFields: IUserDynamicFields;
 }
 
-export interface ITransmittedChatMessage {
+export interface ITransmittedTwitchChatMessage {
   channel: string;
   user: string;
   text: string;
-  voddingMsg: Types.ObjectId; // ObjectId reference to ChatMessage
+  voddingMsg: Types.ObjectId; // ObjectId reference to TwitchChatMessage
 }

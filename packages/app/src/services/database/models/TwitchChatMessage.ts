@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import type { IUserDynamicFields, IChatMessage } from "../interfaces";
+import type { IUserDynamicFields, ITwitchChatMessage } from "../interfaces";
 
 const UserDynamicFieldsSchema = new Schema<IUserDynamicFields>({
   badges: { type: Map, of: String, required: true },
@@ -12,7 +12,7 @@ const UserDynamicFieldsSchema = new Schema<IUserDynamicFields>({
   isArtist: { type: Boolean, required: true },
 });
 
-const ChatMessageSchema = new Schema<IChatMessage>({
+const TwitchChatMessageSchema = new Schema<ITwitchChatMessage>({
   id: { type: String, required: true },
   date: { type: Date, required: true },
   channelId: { type: String, default: null },
@@ -39,10 +39,13 @@ const ChatMessageSchema = new Schema<IChatMessage>({
   hypeChatCurrency: { type: String, default: null },
   hypeChatLevel: { type: Number, default: null },
   hypeChatIsSystemMessage: { type: Boolean, default: null },
-  userInfo: { type: Schema.Types.ObjectId, ref: "ChatUser", required: true },
+  userInfo: { type: Schema.Types.ObjectId, ref: "TwitchUser", required: true },
   userDynamicFields: { type: UserDynamicFieldsSchema, required: true },
 });
 
-const ChatMessageModel = model("ChatMessage", ChatMessageSchema);
+const TwitchChatMessageModel = model(
+  "TwitchChatMessage",
+  TwitchChatMessageSchema,
+);
 
-export default ChatMessageModel;
+export default TwitchChatMessageModel;

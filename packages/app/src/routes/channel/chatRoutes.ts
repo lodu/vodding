@@ -21,7 +21,7 @@ chatRouter.get("/", async (req: ChatRequest, res) => {
   const author = req.query.author as string | undefined;
 
   if (startDate && endDate) {
-    await FileStoreService.getChatMessagesBetweenDates(
+    await FileStoreService.getTwitchChatMessagesBetweenDates(
       channelName,
       startDate,
       endDate,
@@ -34,7 +34,7 @@ chatRouter.get("/", async (req: ChatRequest, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message);
       });
   } else {
-    await FileStoreService.getChatMessages(channelName, author)
+    await FileStoreService.getTwitchChatMessages(channelName, author)
       .then((messages) => {
         res.status(StatusCodes.OK).json(messages);
       })

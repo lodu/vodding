@@ -1,12 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import { Replay } from "./pages/Livestream/Replay/Replay";
+import { Replay } from "@/pages/Livestream/Replay/Replay";
 import { useEffect, useState } from "react";
-import { socket } from "./socket";
-import { ConnectionState } from "./components/ConnectionState";
-import Chat from "./pages/Livestream/Chat";
+import { socket } from "@/socket";
+import Channel from "@/pages/Channel/Channel";
+import NotFoundPage from "@/pages/Error/404";
+import { Button } from "@nextui-org/react";
+import { Provider } from "./provider";
 
 const App = () => {
-  const [socketConnected, setSocketConnected] = useState(socket.connected);
+  const [_, setSocketConnected] = useState(socket.connected);
 
   useEffect(() => {
     function onConnect() {
@@ -27,20 +29,20 @@ const App = () => {
   }, []);
 
   return (
-    <div className="container mx-auto">
-      <ConnectionState socketConnected={socketConnected} />
+    <Provider>
+      {/* <main className={`${theme}`}> */}
+      {/* <ConnectionState socketConnected={socketConnected} /> */}
       <Routes>
-        <Route path="/">
-          <Route path="livestream">
-            <Route path="replay" element={<Replay />} />
-            <Route path=":channelName">
-              <Route path="replay" element={<Replay />} />
-              <Route path="chat" element={<Chat />} />
-            </Route>
-          </Route>
+        <Route path="/" element={<Button variant="bordered"> sd </Button>} />
+        <Route path=":channelName" element={<Channel />} />
+        <Route path="livestream">
+          <Route path="replay" element={<Replay />} />
+          <Route path=":channelName/replay" element={<Replay />} />
+          {/* <Route path=":channelName/chat" element={<Chat />} /> */}
         </Route>
+        <Route path="404" element={<NotFoundPage />} />
       </Routes>
-    </div>
+    </Provider>
   );
 };
 

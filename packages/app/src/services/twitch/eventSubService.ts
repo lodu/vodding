@@ -1,16 +1,16 @@
 import { EventSubWsListener } from "@twurple/eventsub-ws";
-import { twitchClient } from "../../utils/twitchClient";
 import logger from "../../utils/logger";
-import { getUserByUsername } from "./apiService";
 import { startLogChat } from "./chatService";
 import { startStreamRecording } from "../streamService";
+import TwitchApiService from "./apiService";
+import { twitchClient } from "../../utils/twitchClient";
 
 const listener = new EventSubWsListener({
   apiClient: twitchClient,
 });
 
 const createListener = async (userName: string, record: boolean) => {
-  const user = await getUserByUsername(userName);
+  const user = await TwitchApiService.getUserByUsername(userName);
 
   startLogChat(user);
   if (!record) return;
@@ -31,7 +31,7 @@ const createListener = async (userName: string, record: boolean) => {
 
 export const setupTwitchListeners = async (record = true) => {
   try {
-    const recordingNames = ["nymn"];
+    const recordingNames = ["noanoella"];
 
     recordingNames.forEach(async (name: string) => {
       await createListener(name, record)

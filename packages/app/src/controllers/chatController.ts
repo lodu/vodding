@@ -1,19 +1,18 @@
 import * as fs from "fs";
 import * as path from "path";
-import type { ChatMessage } from "@twurple/chat";
 import { io } from "../websockets/socket";
 import logger from "../utils/logger";
 import type {
-  TransmittedChatMessage,
-  VoddingChatUser,
-  VoddingChatMessage,
+  VoddingTransmittedTwitchChatMessage,
+  VoddingTwitchChatMessage,
 } from "@vodding/common/chatTypes";
-import { getUserByUsername } from "../services/twitch/apiService";
-import saveChatMessage from "../services/database/chatMessageService";
+import TwitchChatMessageService from "../services/database/twitchChatMessageService";
+import TwitchApiService from "../services/twitch/apiService";
+import type { ChatMessage } from "@twurple/chat";
 
-const mapChatMessageToVoddingChatMessage = async (
+const mapTwitchChatMessageToVoddingTwitchChatMessage = async (
   msg: ChatMessage,
-): Promise<VoddingChatMessage> => {
+): Promise<VoddingTwitchChatMessage> => {
   return {
     id: msg.id,
     date: msg.date,
@@ -29,9 +28,9 @@ const mapChatMessageToVoddingChatMessage = async (
       isFounder: msg.userInfo.isFounder,
       isVip: msg.userInfo.isVip,
       isArtist: msg.userInfo.isArtist,
-      profilePictureUrl: await getUserByUsername(msg.userInfo.userName).then(
-        (user) => user.profilePictureUrl,
-      ),
+      profilePictureUrl: (
+        await TwitchApiService.getUserByUsername(msg.userInfo.userName)
+      ).profilePictureUrl,
     },
     channelId: msg.channelId,
     isCheer: msg.isCheer,
@@ -67,18 +66,18 @@ class ChatController {
     text: string,
     msg: ChatMessage,
   ): Promise<void> {
-    const message = await mapChatMessageToVoddingChatMessage(msg);
+    const message = await mapTwitchChatMessageToVoddingTwitchChatMessage(msg);
 
-    const transmittedMsg: TransmittedChatMessage = {
+    const transmittedMsg: VoddingTransmittedTwitchChatMessage = {
       channel,
       user,
       text,
       voddingMsg: message,
     };
 
-    io.to(channel).emit("chatMessage", transmittedMsg);
+    io.to(channel).emit("TwitchChatMessage", transmittedMsg);
 
-    await saveChatMessage(message);
+    await TwitchChatMessageService.saveTwitchChatMessage(message);
   }
 }
 

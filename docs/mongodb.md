@@ -10,9 +10,9 @@ User-specific information such as `userName`, `displayName`, and `profilePicture
 
 Channel-specific information such as `badges`, `badgeInfo`, `isBroadcaster`, `isSubscriber`, `isFounder`, `isMod`, `isVip`, and `isArtist` is stored within each individual message. This is because these attributes can vary between different chat livestream channels. For example, a user might be a moderator in one channel but not in another.
 
-### ChatMessage Model
+### TwitchChatMessage Model
 
-The `ChatMessage` model represents an individual chat message and includes the following fields:
+The `TwitchChatMessage` model represents an individual chat message and includes the following fields:
 
 - `id`: Unique identifier for the message.
 - `date`: Timestamp of when the message was sent.
@@ -22,12 +22,12 @@ The `ChatMessage` model represents an individual chat message and includes the f
 - `bits`: Number of bits used in the message.
 - `emoteOffsets`: Map of emote offsets in the message.
 - `isHypeChat`, `hypeChatAmount`, `hypeChatDecimalPlaces`, `hypeChatLocalizedAmount`, `hypeChatCurrency`, `hypeChatLevel`, `hypeChatIsSystemMessage`: Information related to hype chats.
-- `userInfo`: Reference to the `ChatUser` who sent the message.
+- `userInfo`: Reference to the `TwitchUser` who sent the message.
 - `userDynamicFields`: Dynamic fields related to the user, such as badges and roles.
 
-### ChatUser Model
+### TwitchUser Model
 
-The `ChatUser` model represents a user in the chat and includes the following fields:
+The `TwitchUser` model represents a user in the chat and includes the following fields:
 
 - `userName`: Unique username of the user.
 - `displayName`: Display name of the user.

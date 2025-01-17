@@ -1,28 +1,33 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
 import { joinChannel, socket } from "../../socket";
-import { TransmittedChatMessage } from "@vodding/common/chatTypes";
 import { motion } from "framer-motion";
-import Message from "../../components/chat/Message";
+import Message from "./Message";
+import { VoddingTransmittedTwitchChatMessage } from "@vodding/common/chatTypes";
 
-function Chat() {
-  const { channelName } = useParams<{ channelName: string }>();
-  const [messages, setMessages] = useState<TransmittedChatMessage[]>([]);
+interface ChatProps {
+  channelName: string;
+}
+
+function Chat({ channelName }: ChatProps) {
+  const [messages, setMessages] = useState<
+    VoddingTransmittedTwitchChatMessage[]
+  >([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const lastMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (channelName) {
-      joinChannel(channelName);
-    }
+    joinChannel(channelName);
 
-    socket.on("chatMessage", (message: TransmittedChatMessage) => {
-      console.log("Received chat message", message);
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
+    socket.on(
+      "TwitchChatMessage",
+      (message: VoddingTransmittedTwitchChatMessage) => {
+        console.log("Received chat message", message);
+        setMessages((prevMessages) => [...prevMessages, message]);
+      }
+    );
 
     return () => {
-      socket.off("chatMessage");
+      socket.off("TwitchChatMessage");
     };
   }, [channelName]);
 

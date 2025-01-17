@@ -3,6 +3,7 @@ import fs from "fs";
 import { getEnvVar } from "../utils/config";
 
 export interface VoddingConfig {
+  basePath: string;
   mongo: MongoConfig;
   redisConnection: RedisOptions;
   storageFolder: {
@@ -34,6 +35,7 @@ export const queueConnection: RedisOptions = {
 
 const voddingConfig: VoddingConfig = {
   mongo: mongoConfig,
+  basePath: getEnvVar("BASE_PATH", "/app"),
   redisConnection: queueConnection,
   storageFolder: {
     chat: `${getEnvVar("DATASTORE_FOLDER")}chat/`,

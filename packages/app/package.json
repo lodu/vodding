@@ -15,6 +15,7 @@
     "@types/http-status-codes": "^1.2.0",
     "@vodding/common": "workspace:*",
     "bullmq": "^5.34.6",
+    "date-fns": "^4.1.0",
     "express": "^4.19.2",
     "http-status-code": "^2.1.0",
     "ioredis": "^5.4.2",

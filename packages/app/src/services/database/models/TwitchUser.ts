@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import type { IChatUser } from "../interfaces";
+import type { ITwitchUser } from "../interfaces";
 
-const ChatUserSchema = new Schema<IChatUser>({
+const TwitchUserSchema = new Schema<ITwitchUser>({
   userName: { type: String, required: true },
   displayName: { type: String, required: true },
   profilePictureUrl: { type: String, required: true },
@@ -20,6 +20,6 @@ const ChatUserSchema = new Schema<IChatUser>({
   ],
 });
 
-const ChatUserModel = model("ChatUser", ChatUserSchema);
+const TwitchUserModel = model("TwitchUser", TwitchUserSchema);
 
-export default ChatUserModel;
+export default TwitchUserModel;

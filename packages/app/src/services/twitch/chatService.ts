@@ -3,7 +3,7 @@ import logger from "../../utils/logger";
 import type { ChatMessage } from "@twurple/chat";
 
 import type { HelixUser } from "@twurple/api";
-import { chatController } from "../../controllers/chatController";
+import { chatController } from "../../controllers/ChatController";
 
 const listener = chatClient;
 listener.connect();
