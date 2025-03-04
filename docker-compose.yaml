@@ -1,9 +1,9 @@
 services:
-  app:
+  server:
     build:
       context: .
-      dockerfile: Dockerfile
-      target: app_production
+      dockerfile: Dockerfile.server
+      target: production
     restart: unless-stopped
     env_file:
       - .env
@@ -21,8 +21,8 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile
-      target: web_production
+      dockerfile: Dockerfile.web
+      target: production
     restart: unless-stopped
     volumes:
       - ./nginx/production.nginx.conf:/etc/nginx/nginx.conf:ro

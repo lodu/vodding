@@ -1,0 +1,58 @@
+FROM oven/bun:1 AS base
+
+LABEL description="Vodding"
+LABEL org.opencontainers.image.source="https://github.com/lodu/vodding"
+LABEL org.opencontainers.image.url="https://github.com/lodu/vodding"
+LABEL org.opencontainers.image.documentation="https://github.com/lodu/vodding"
+LABEL maintainer="Ludo <ludo@lodu.dev>"
+LABEL version="1.0"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.revision="Initial release ✨"
+LABEL org.opencontainers.image.title="Vodding - The Ultimate Streaming Experience 🚀"
+LABEL org.opencontainers.image.description="A blazing fast component for the revolutionary Vodding application. Stream like never before! 🎉"
+
+
+
+WORKDIR /app/
+
+FROM base AS install
+
+WORKDIR /temp/
+
+COPY common/package.json /temp/common/
+COPY web/package.json /temp/web/
+
+RUN bun install
+
+
+FROM base AS development
+
+COPY web/ /app/
+RUN bun install
+
+
+WORKDIR /app/web/
+ENV NODE_ENV=development
+EXPOSE 5173
+ENTRYPOINT  ["bun"]
+CMD ["run", "dev"]
+
+
+FROM base AS production_build
+COPY --from=install /temp/node_modules node_modules
+COPY web/ /app/
+COPY common/ /app/
+
+WORKDIR /app/web
+ENV NODE_ENV=production
+
+RUN bun run build
+
+
+FROM nginx:latest AS production
+COPY --from=web_production_build /app/web/dist /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+

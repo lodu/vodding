@@ -1,0 +1,74 @@
+FROM oven/bun:1 AS base
+
+LABEL description="Vodding"
+LABEL org.opencontainers.image.source="https://github.com/lodu/vodding"
+LABEL org.opencontainers.image.url="https://github.com/lodu/vodding"
+LABEL org.opencontainers.image.documentation="https://github.com/lodu/vodding"
+LABEL maintainer="Ludo <ludo@lodu.dev>"
+LABEL version="1.0"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.revision="Initial release ✨"
+LABEL org.opencontainers.image.title="Vodding - The Ultimate Streaming Experience 🚀"
+LABEL org.opencontainers.image.description="A blazing fast component for the revolutionary Vodding application. Stream like never before! 🎉"
+
+
+
+WORKDIR /app/
+
+FROM base AS install
+
+WORKDIR /temp/
+
+COPY app/package.json /temp/app/
+COPY common/package.json /temp/common/
+
+RUN bun install
+
+
+FROM base AS development
+
+COPY ./server /app/
+COPY ./common /app/
+RUN bun install
+
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    apt-get -y install --no-install-recommends streamlink && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app/server/
+ENV NODE_ENV=development
+EXPOSE 5432
+ENTRYPOINT  ["bun"]
+CMD ["run", "dev"]
+
+
+FROM base AS production_build
+COPY --from=install /temp/node_modules node_modules
+COPY . .
+
+WORKDIR /app/server/
+ENV NODE_ENV=production
+RUN bun run prebuild
+RUN bun run build
+
+
+
+FROM base AS production
+COPY --from=server_production_build /app/server/dist /app/server/dist
+
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    apt-get -y install --no-install-recommends streamlink && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+COPY common/package.json /app/common/
+COPY server/package.json /app/server/
+
+WORKDIR /app/server/
+EXPOSE 5432
+ENTRYPOINT [ "bun" ]
+CMD [ "run", "start" ]
+

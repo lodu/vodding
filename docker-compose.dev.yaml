@@ -1,14 +1,14 @@
 services:
-  app:
+  server:
     build:
       context: .
-      dockerfile: Dockerfile
-      target: app_development
+      dockerfile: Dockerfile.server
+      target: development
     restart: unless-stopped
     volumes:
-      - ./packages/app/:/app/packages/app/
+      - ./server/:/app/server/
       - ./data/vodding-data/:/data/
-      - .env:/app/packages/app/.env
+      - .env:/app/server/.env
     environment:
       NODE_ENV: development
       DATASTORE_FOLDER: /data/
@@ -17,19 +17,19 @@ services:
       - "5432"
     entrypoint: ["sh", "-c", "while :; do sleep 10; done"]
 
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: web_development
-    restart: unless-stopped
-    volumes:
-      - ./packages/web:/app/packages/web/
-    expose:
-      - "5173"
-    entrypoint: ["sh", "-c", "while :; do sleep 10; done"]
-    depends_on:
-      - app
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.web
+  #     target: development
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./web:/app/web/
+  #   expose:
+  #     - "5173"
+  #   entrypoint: ["sh", "-c", "while :; do sleep 10; done"]
+  #   depends_on:
+  #     - app
 
   nginx:
     image: nginx:latest
