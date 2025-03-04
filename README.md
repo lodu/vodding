@@ -1,3 +1,9 @@
+> **⚠️ This README was generated with the help of AI.**
+
+> **🚧 Heavy Work in Progress**: This repository is currently under heavy development and should not be used in production. It is intended for educational purposes only, demonstrating how to use various technologies.
+
+
+
 # Vodding - The Ultimate Streaming Experience 🚀
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/lodu/vodding?style=for-the-badge&color=blueviolet)
@@ -49,7 +55,7 @@ Welcome to **Vodding**, the ultimate streaming experience! Vodding is a blazing 
    4. **Start the App and Web services**:
 
       Since the server and web containers don't do anything by themselves, you'll need to execute the following commands:
-      You can attach VSC to the containers and run `bun run dev` inside `/app/<server|web>` or:
+      You can attach VSC to the containers and run `bun run dev` inside `/app/<app|web>` or:
 
       ```bash
       docker-compose -f docker-compose.dev.yaml exec server bash -c "cd /app/server && bun run dev"
