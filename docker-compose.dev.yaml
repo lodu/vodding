@@ -31,13 +31,13 @@ services:
   #   depends_on:
   #     - app
 
-  nginx:
-    image: nginx:latest
+  caddy:
+    image: caddy:latest
     restart: unless-stopped
     ports:
       - "80:80"
     volumes:
-      - ./nginx/development.nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./caddy/Caddyfile.development:/etc/caddy/Caddyfile:ro
 
   mongo:
     extends:
