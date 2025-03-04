@@ -1,4 +1,4 @@
-> **⚠️ This README was generated with the help of AI.**
+> **⚠️ This README was generated with ~the help of~ AI.**
 
 > **🚧 Heavy Work in Progress**: This repository is currently under heavy development and should not be used in production. It is intended for educational purposes only, demonstrating how to use various technologies.
 
