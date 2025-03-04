@@ -55,7 +55,7 @@ Welcome to **Vodding**, the ultimate streaming experience! Vodding is a blazing 
    4. **Start the App and Web services**:
 
       Since the server and web containers don't do anything by themselves, you'll need to execute the following commands:
-      You can attach VSC to the containers and run `bun run dev` inside `/app/<app|web>` or:
+      You can attach VSC to the containers and run `bun run dev` inside `/app/<server|web>` or:
 
       ```bash
       docker-compose -f docker-compose.dev.yaml exec server bash -c "cd /app/server && bun run dev"
