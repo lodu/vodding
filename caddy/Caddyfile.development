@@ -1,0 +1,44 @@
+{
+    http_port 80
+}
+
+app.example.com {
+    reverse_proxy /app/* server:3000 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        header_up Upgrade {>Upgrade}
+        header_up Connection {>Connection}
+    }
+
+    reverse_proxy /socket.io/* server:3000 {
+        header_up X-Real-IP {remote}
+        header_up Host {host}
+        header_up X-NginX-Proxy true
+        header_up X-Forwarded-Host {host}
+        header_up X-Forwarded-Server {host}
+        header_up X-Forwarded-For {remote}
+        header_up Upgrade {>Upgrade}
+        header_up Connection {>Connection}
+    }
+
+    reverse_proxy /mongo/* mongo-express:8081 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    reverse_proxy /* web:5173 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        header_up Upgrade {>Upgrade}
+        header_up Connection {>Connection}
+        transport http {
+            read_buffer 86400
+        }
+    }
+}

@@ -50,9 +50,9 @@ ENV NODE_ENV=production
 RUN bun run build
 
 
-FROM nginx:latest AS production
-COPY --from=web_production_build /app/web/dist /usr/share/nginx/html
+FROM caddy:latest AS production
+COPY --from=production_build /app/web/dist /usr/share/caddy
+COPY caddy/Caddyfile.production /etc/caddy/Caddyfile
 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]

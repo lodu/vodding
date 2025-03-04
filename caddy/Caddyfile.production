@@ -1,0 +1,43 @@
+{
+    admin off
+}
+
+http:// {
+    @app {
+        reverse_proxy server:3000
+    }
+
+    @mongo-express {
+        reverse_proxy mongo-express:8081
+    }
+
+    route /app/* {
+        reverse_proxy @app {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    route / {
+        root * /usr/share/nginx/html
+        try_files {path} {path}/ /index.html
+        file_server
+    }
+
+    route /assets/* {
+        root * /usr/share/nginx/html
+        try_files {path} =404
+        file_server
+    }
+
+    route /mongo/* {
+        reverse_proxy @mongo-express {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+}
